@@ -19,17 +19,20 @@
       </thead>
       <tbody>
         <?php
-          $db = new SQLite3('db.sqlite');
-          $results = $db->query('SELECT Prefix FROM FrontPage');
-          while($row = $results->fetchArray()) {
-      ?>
-        <tr>
-          <td><?php echo $row['Prefix']?></td>
-          <td><?php echo $row['Department']?></td>
-        </tr>
-      <?php
-          }
+          $db = sqlite_open('db.sqlite', 0666, $sqliteerror);
+
+          $results = sqlite_query($db, 'SELECT Prefix FROM FrontPage');
+//          var_dump(sqlite_fetch_array($results));
+          $row = sqlite_fetch_array($results);
+//          foreach($results as $row) {
+//            print $row['Prefix'];
+//            echo "Prefix: " . $row['Prefix'] . "\n";
+//          }
         ?>
+        <tr>
+          <td><?php echo $row?></td>
+          <td>blah</td>
+        </tr>
       </tbody>
     </table>
   </body>
