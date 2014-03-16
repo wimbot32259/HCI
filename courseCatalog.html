@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>Course Listings</title>
+  </head>
+  <body>
+    <table border="1" style="width:300px">
+      <thead>
+      <tr>
+        <td>Course</td>
+        <td>Section</td>
+        <td>Credits</td>
+        <td>Day(s)</td>
+        <td>Period</td>
+        <td>Building</td>
+        <td>Room</td>
+        <td>Course Title</td>
+        <td>Instructor</td>
+      </tr>
+      </thead>
+      <tbody>
+        <?php
+          if ($db = sqlite_open('mysqlitedb', 0666, $error)) {
+            $query = $database->query("SELECT name FROM sqlite_master WHERE type='table'", SQLITE_ASSOC, $query_error); #Lists all tables
+            if ($query_error) {
+              die("Error: $query_error"); #This means that most probably we catch a syntax error
+            }
+            if (!$query) {
+              die("Impossible to execute query.") #As reported above, this means that the db owner is different from the web server's one, but we did not commit any syntax mistake.
+            }
+            print $query->numRows();
+            while ($row = $query->fetch()) {
+              print($row['name']."\n");
+            }
+//            sqlite_query($db, 'CREATE TABLE foo (bar varchar(10))');
+//            sqlite_query($db, "INSERT INTO foo VALUES ('fnord')");
+//            $result = sqlite_query($db, 'select bar from foo');
+//            var_dump(sqlite_fetch_array($result));
+          } else {
+            $error = (file_exists('mysqlitedb')) ? "Impossible to open, check permissions" : "Impossible to create, check permissions";
+            die($error);
+          }
+
+
+
+//          $connect = mysql_connect("localhost","root", "root");
+//          if (!$connect) {
+//            die(mysql_error());
+//          }
+//          mysql_select_db("apploymentdevs");
+//          $results = mysql_query("SELECT * FROM demo LIMIT 10");
+//          while($row = mysql_fetch_array($results)) {
+        ?>
+            <tr>
+              <td><?php echo $row['Id']?></td>
+              <td><?php echo $row['Name']?></td>
+            </tr>
+
+        <?php
+          }
+        ?>
+      </tbody>
+    </table>
+  </body>
+</html>
