@@ -20,12 +20,12 @@
       <tbody>
         <?php
           if ($db = sqlite_open('mysqlitedb', 0666, $error)) {
-            $query = $database->query("SELECT name FROM sqlite_master WHERE type='table'", SQLITE_ASSOC, $query_error); #Lists all tables
+            $query = $db->query("SELECT name FROM sqlite_master WHERE type='table'", SQLITE_ASSOC, $query_error); //Lists all tables
             if ($query_error) {
-              die("Error: $query_error"); #This means that most probably we catch a syntax error
+              die("Error: $query_error"); //This means that most probably we catch a syntax error
             }
             if (!$query) {
-              die("Impossible to execute query.") #As reported above, this means that the db owner is different from the web server's one, but we did not commit any syntax mistake.
+              die("Impossible to execute query.") //As reported above, this means that the db owner is different from the web server's one, but we did not commit any syntax mistake.
             }
             print $query->numRows();
             while ($row = $query->fetch()) {
