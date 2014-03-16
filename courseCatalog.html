@@ -22,10 +22,10 @@
           if ($db = sqlite_open('mysqlitedb', 0666, $error)) {
             $query = $db->query("SELECT name FROM sqlite_master WHERE type='table'", SQLITE_ASSOC, $query_error); //Lists all tables
             if ($query_error) {
-              die("Error: $query_error"); //This means that most probably we catch a syntax error
+              die("Error: $query_error"); // syntax error
             }
             if (!$query) {
-              die("Impossible to execute query.") //As reported above, this means that the db owner is different from the web server's one, but we did not commit any syntax mistake.
+              die("Impossible to execute query."); // owner incorrect
             }
             print $query->numRows();
             while ($row = $query->fetch()) {
@@ -35,10 +35,6 @@
 //            sqlite_query($db, "INSERT INTO foo VALUES ('fnord')");
 //            $result = sqlite_query($db, 'select bar from foo');
 //            var_dump(sqlite_fetch_array($result));
-          } else {
-            $error = (file_exists('mysqlitedb')) ? "Impossible to open, check permissions" : "Impossible to create, check permissions";
-            die($error);
-          }
 
 
 
@@ -49,14 +45,20 @@
 //          mysql_select_db("apploymentdevs");
 //          $results = mysql_query("SELECT * FROM demo LIMIT 10");
 //          while($row = mysql_fetch_array($results)) {
+            while($row = sqlite_fetch_array($query)) {
         ?>
-            <tr>
-              <td><?php echo $row['Id']?></td>
-              <td><?php echo $row['Name']?></td>
-            </tr>
-
+          <tr>
+            <td><?php echo $row['Course']?></td>
+            <td><?php echo $row['Section']?></td>
+            <td><?php echo $row['Credits']?></td>
+          </tr>
         <?php
+            }
+          } else {
+            $error = (file_exists('mysqlitedb')) ? "Impossible to open, check permissions" : "Impossible to create, check permissions";
+            die($error);
           }
+
         ?>
       </tbody>
     </table>
